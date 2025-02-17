@@ -1,0 +1,36 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.8</VERSION>
+ <DEVICE>"ATmega328P"</DEVICE>
+ <WORKING_DIR>C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Laboratorios\IE2023-PreLab03\PreLab03, AAEM22235\PreLab03, AAEM22235\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Laboratorios\IE2023-PreLab03\PreLab03, AAEM22235\PreLab03, AAEM22235\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc</FILE>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\M328PDEF.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Laboratorios\IE2023-PreLab03\PreLab03, AAEM22235\PreLab03, AAEM22235\Debug\PreLab03, AAEM22235.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>PreLab03, AAEM22235.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>PreLab03, AAEM22235.map</FILE>
+  <FILE>PreLab03, AAEM22235.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <PIN_CHANGE><FILE>C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Laboratorios\IE2023-PreLab03\PreLab03, AAEM22235\PreLab03, AAEM22235\main.asm</FILE><LINE>63</LINE></PIN_CHANGE>
+  <SETUP><FILE>C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Laboratorios\IE2023-PreLab03\PreLab03, AAEM22235\PreLab03, AAEM22235\main.asm</FILE><LINE>24</LINE></SETUP>
+  <MAIN_LOOP><FILE>C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Laboratorios\IE2023-PreLab03\PreLab03, AAEM22235\PreLab03, AAEM22235\main.asm</FILE><LINE>55</LINE></MAIN_LOOP>
+  <COUNTUP_SEG><FILE>C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Laboratorios\IE2023-PreLab03\PreLab03, AAEM22235\PreLab03, AAEM22235\main.asm</FILE><LINE>90</LINE></COUNTUP_SEG>
+  <RETURN_UP><FILE>C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Laboratorios\IE2023-PreLab03\PreLab03, AAEM22235\PreLab03, AAEM22235\main.asm</FILE><LINE>80</LINE></RETURN_UP>
+  <COUNTDWN_SEG><FILE>C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Laboratorios\IE2023-PreLab03\PreLab03, AAEM22235\PreLab03, AAEM22235\main.asm</FILE><LINE>104</LINE></COUNTDWN_SEG>
+  <RETURN_DWN><FILE>C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Laboratorios\IE2023-PreLab03\PreLab03, AAEM22235\PreLab03, AAEM22235\main.asm</FILE><LINE>85</LINE></RETURN_DWN>
+  <COUNTUP><FILE>C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Laboratorios\IE2023-PreLab03\PreLab03, AAEM22235\PreLab03, AAEM22235\main.asm</FILE><LINE>97</LINE></COUNTUP>
+  <COUNTDWN><FILE>C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Laboratorios\IE2023-PreLab03\PreLab03, AAEM22235\PreLab03, AAEM22235\main.asm</FILE><LINE>111</LINE></COUNTDWN>
+ </LABELS>
+</ASSEMBLER_INFO>
