@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Laboratorios\IE2023-PreLab03\PreLab03, AAEM22235\PreLab03, AAEM22235\main.asm Mon Feb 17 12:31:01 2025
+AVRASM ver. 2.2.8  C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Laboratorios\IE2023-PreLab03\PreLab03, AAEM22235\PreLab03, AAEM22235\main.asm Mon Feb 17 12:44:39 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
 C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Laboratorios\IE2023-PreLab03\PreLab03, AAEM22235\PreLab03, AAEM22235\main.asm(9): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\M328PDEF.inc'
@@ -1042,7 +1042,7 @@ C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Lab
                                  
                                  ;Guardamos un salto a la sub-rutina "PIN_CHANGE" en el vector de interrupción necesario
                                  .org PCINT1 ;Pin Change Interrupt 1 (PORTC)
-000001 940c 0014                 	JMP	PIN_CHANGE
+000001 940c 001a                 	JMP	PIN_CHANGE
                                  
                                  ;Registros importantes
                                  .def	COUNT			= R20
@@ -1077,14 +1077,20 @@ C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Lab
                                  	;Valores iniciales
 000010 e040                      	LDI		COUNT, 0x00
                                  
+                                 	;Habilitación de Interrupciones en PCIE1 (PORTC)
+000011 e002                      	LDI		R16, (1 << PCIE1)
+000012 9300 0068                 	STS		PCICR, R16
+000014 e003                      	LDI		R16, (1 << PCINT8) | (1 << PCINT9)
+000015 9300 006c                 	STS		PCMSK1, R16
+                                 
                                  	;Rehabilitamos interrupciones globales
-000011 9478                      	SEI
+000017 9478                      	SEI
                                  
                                  
                                  
                                  ;Loop infinito sin acción alguna, pues las interrupciones evitan POLLING
                                  MAIN_LOOP:
-000012 940c 0012                 	JMP MAIN_LOOP
+000018 940c 0018                 	JMP MAIN_LOOP
                                  
                                  
                                  
@@ -1092,15 +1098,15 @@ C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Lab
                                  ;(Será utilizada la instrucción SEI para habilitar interrupciones anidadas)
                                  
                                  PIN_CHANGE:
-000014 9478                      	SEI		; Habilitamos interrupciones anidadas
+00001a 9478                      	SEI		; Habilitamos interrupciones anidadas
                                  	;Primero revisamos si el cambio fue en COUNTUP_BUTTON
                                  	;Si el botón se encuentra presionado, nos vamos a revisar su estado anterior para verificar
                                  	;si es correcto incrementar el valor de COUNT
                                  	;Si el botón NO se encuentra presionado, establecemos su último estado como NO presionado,
                                  	;y revisamos COUNTDWN_BUTTON
-000015 9b31                      	SBIS	PINC, 1
-000016 940c 001e                 	JMP		COUNTUP_SEG
-000018 e061                      	LDI		PBUP_LASTVALUE, 0b00000001
+00001b 9b31                      	SBIS	PINC, 1
+00001c 940c 0024                 	JMP		COUNTUP_SEG
+00001e e061                      	LDI		PBUP_LASTVALUE, 0b00000001
                                  
                                  	;Si el estado anterior de COUNTUP_BUTTON era el mismo que el último guardado, o bien, si el
                                  	; botón NO se encontraba presionado, no ejecutamos un incremento y revisamos COUNTDWN_BUTTON
@@ -1109,41 +1115,41 @@ C:\Users\ang50\OneDrive\Documents\Git\UVG\Programación de microcontroladores\Lab
                                  	;Si el botón NO se encuentra presionado, establecemos su último estado como NO presionado,
                                  	;y regresamos a MAIN saliéndonos de la rutina de interrupción
                                  	RETURN_UP:
-000019 9b30                      		SBIS	PINC, 0
-00001a 940c 002a                 		JMP		COUNTDWN_SEG
-00001c e071                      		LDI		PBDWN_LASTVALUE, 0b00000001
+00001f 9b30                      		SBIS	PINC, 0
+000020 940c 0030                 		JMP		COUNTDWN_SEG
+000022 e071                      		LDI		PBDWN_LASTVALUE, 0b00000001
                                  
                                  	RETURN_DWN:
-00001d 9518                      		RETI
+000023 9518                      		RETI
                                  
                                  
                                  ;********Sub-rutinas de la sub-rutina de interrupción******** 
                                  COUNTUP_SEG:
-00001e fb60                      	BST		PBUP_LASTVALUE, 0
-00001f f7ce                      	BRTC	RETURN_UP
-000020 940e 0025                 	CALL	COUNTUP
-000022 e060                      	LDI		PBUP_LASTVALUE,	0b00000000
+000024 fb60                      	BST		PBUP_LASTVALUE, 0
+000025 f7ce                      	BRTC	RETURN_UP
+000026 940e 002b                 	CALL	COUNTUP
+000028 e060                      	LDI		PBUP_LASTVALUE,	0b00000000
                                  	;No es necesario un loop de seguridad dado el uso de interrupciones
-000023 940c 0019                 	JMP		RETURN_UP
+000029 940c 001f                 	JMP		RETURN_UP
                                  COUNTUP:
-000025 9543                      	INC		COUNT
-000026 ff44                      	SBRS	COUNT, 4
-000027 2744                      	CLR		COUNT
-000028 b945                      	OUT		PORTB, COUNT
-000029 9508                      	RET	
+00002b 9543                      	INC		COUNT
+00002c ff44                      	SBRS	COUNT, 4
+00002d 2744                      	CLR		COUNT
+00002e b945                      	OUT		PORTB, COUNT
+00002f 9508                      	RET	
                                  
                                  COUNTDWN_SEG:
-00002a fb70                      	BST		PBDWN_LASTVALUE, 0
-00002b f78e                      	BRTC	RETURN_DWN
-00002c 940e 0031                 	CALL	COUNTDWN
-00002e e070                      	LDI		PBDWN_LASTVALUE,	0b00000000
+000030 fb70                      	BST		PBDWN_LASTVALUE, 0
+000031 f78e                      	BRTC	RETURN_DWN
+000032 940e 0037                 	CALL	COUNTDWN
+000034 e070                      	LDI		PBDWN_LASTVALUE,	0b00000000
                                  	;No es necesario un loop de seguridad dado el uso de interrupciones
-00002f 940c 001d                 	JMP		RETURN_DWN
+000035 940c 0023                 	JMP		RETURN_DWN
                                  COUNTDWN:
-000031 954a                      	DEC		COUNT
-000032 ff47                      	SBRS	COUNT, 7
-000033 e04f                      	LDI		COUNT, 0x0F
-000034 b945                      	OUT		PORTB, COUNT
+000037 954a                      	DEC		COUNT
+000038 ff47                      	SBRS	COUNT, 7
+000039 e04f                      	LDI		COUNT, 0x0F
+00003a b945                      	OUT		PORTB, COUNT
 
 
 RESOURCE USE INFORMATION
@@ -1163,7 +1169,7 @@ counted separately from r26..r31 here.
 "ATmega328P" register use summary:
 x  :   0 y  :   0 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  12 r17:   0 r18:   0 r19:   0 r20:   9 
+r13:   0 r14:   0 r15:   0 r16:  16 r17:   0 r18:   0 r19:   0 r20:   9 
 r21:   0 r22:   3 r23:   3 r24:   0 r25:   0 r26:   0 r27:   0 r28:   0 
 r29:   0 r30:   0 r31:   0 
 Registers used: 4 out of 35 (11.4%)
@@ -1179,21 +1185,21 @@ clc   :   0 clh   :   0 cli   :   1 cln   :   0 clr   :   1 cls   :   0
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
 cpi   :   0 cpse  :   0 dec   :   1 eor   :   0 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   1 jmp   :   6 
-ld    :   0 ldd   :   0 ldi   :  12 lds   :   0 lpm   :   0 lsl   :   0 
+ld    :   0 ldd   :   0 ldi   :  14 lds   :   0 lpm   :   0 lsl   :   0 
 lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
 neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :   8 pop   :   0 
 push  :   0 rcall :   0 ret   :   2 reti  :   1 rjmp  :   0 rol   :   0 
 ror   :   0 sbc   :   0 sbci  :   0 sbi   :   0 sbic  :   0 sbis  :   2 
 sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   2 sec   :   0 seh   :   0 
 sei   :   2 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
-sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   0 
+sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   2 
 sub   :   0 subi  :   0 swap  :   0 tst   :   0 wdr   :   0 
-Instructions used: 15 out of 113 (13.3%)
+Instructions used: 16 out of 113 (14.2%)
 
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000002 0x00006c    106      0    106   32768   0.3%
+[.cseg] 0x000002 0x000078    118      0    118   32768   0.4%
 [.dseg] 0x000100 0x000100      0      0      0    2048   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 

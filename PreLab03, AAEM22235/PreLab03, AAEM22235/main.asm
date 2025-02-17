@@ -46,6 +46,12 @@ SETUP:
 	;Valores iniciales
 	LDI		COUNT, 0x00
 
+	;Habilitación de Interrupciones en PCIE1 (PORTC)
+	LDI		R16, (1 << PCIE1)
+	STS		PCICR, R16
+	LDI		R16, (1 << PCINT8) | (1 << PCINT9)
+	STS		PCMSK1, R16
+
 	;Rehabilitamos interrupciones globales
 	SEI
 
